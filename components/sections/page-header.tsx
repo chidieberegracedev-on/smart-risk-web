@@ -1,5 +1,6 @@
 import type { ReactNode } from "react";
 import { GradientMesh } from "@/components/visuals/gradient-mesh";
+import { OrbEcho } from "@/components/visuals/orb-echo";
 import { Reveal } from "@/components/motion/reveal";
 import { Badge } from "@/components/ui/badge";
 
@@ -17,6 +18,7 @@ export function PageHeader({
   return (
     <section className="relative overflow-hidden pb-8 pt-32 lg:pt-40">
       <GradientMesh intensity="soft" />
+      <OrbEcho />
       <div className="container-page relative max-w-4xl">
         <Reveal>
           <Badge tone="accent">{eyebrow}</Badge>
