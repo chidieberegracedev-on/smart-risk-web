@@ -3,6 +3,7 @@ import { display, sans, mono } from "./fonts";
 import { site } from "@/lib/site";
 import { Nav } from "@/components/layout/nav";
 import { Footer } from "@/components/layout/footer";
+import { ScrollProgress } from "@/components/motion/scroll-progress";
 import "./globals.css";
 
 export const metadata: Metadata = {
@@ -62,6 +63,7 @@ export default function RootLayout({
         >
           Skip to content
         </a>
+        <ScrollProgress />
         <Nav />
         <main id="main">{children}</main>
         <Footer />

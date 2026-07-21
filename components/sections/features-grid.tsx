@@ -3,6 +3,7 @@ import { Stagger, StaggerItem } from "@/components/motion/reveal";
 import { Badge } from "@/components/ui/badge";
 import { features } from "@/lib/site";
 import { FeatureIcon } from "@/components/ui/feature-icon";
+import { SpotlightCard } from "@/components/ui/spotlight-card";
 
 export function FeaturesGrid({
   showHeading = true,
@@ -30,31 +31,33 @@ export function FeaturesGrid({
 
       <Stagger className="mt-14 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
         {list.map((f) => (
-          <StaggerItem key={f.title}>
-            <article className="group flex h-full flex-col rounded-2xl border border-line bg-panel/60 p-6 transition-all duration-300 hover:-translate-y-1 hover:border-line-strong hover:bg-panel-2/70">
-              <div className="flex items-center justify-between">
-                <span className="flex h-11 w-11 items-center justify-center rounded-xl border border-line bg-panel-2 text-accent transition-colors group-hover:border-accent/40">
-                  <FeatureIcon name={f.title} />
-                </span>
-                <Badge
-                  tone={
-                    f.tag === "Core"
-                      ? "accent"
-                      : f.tag === "Evolving"
-                        ? "caution"
-                        : "neutral"
-                  }
-                >
-                  {f.tag}
-                </Badge>
+          <StaggerItem key={f.title} className="h-full">
+            <SpotlightCard className="group h-full transition-transform duration-300 hover:-translate-y-1">
+              <div className="flex h-full flex-col p-6">
+                <div className="flex items-center justify-between">
+                  <span className="flex h-11 w-11 items-center justify-center rounded-xl border border-line bg-panel-2 text-accent transition-colors group-hover:border-accent/40">
+                    <FeatureIcon name={f.title} />
+                  </span>
+                  <Badge
+                    tone={
+                      f.tag === "Core"
+                        ? "accent"
+                        : f.tag === "Evolving"
+                          ? "caution"
+                          : "neutral"
+                    }
+                  >
+                    {f.tag}
+                  </Badge>
+                </div>
+                <h3 className="mt-5 text-lg font-semibold text-text">
+                  {f.title}
+                </h3>
+                <p className="mt-2 text-sm leading-relaxed text-muted">
+                  {f.body}
+                </p>
               </div>
-              <h3 className="mt-5 text-lg font-semibold text-text">
-                {f.title}
-              </h3>
-              <p className="mt-2 text-sm leading-relaxed text-muted">
-                {f.body}
-              </p>
-            </article>
+            </SpotlightCard>
           </StaggerItem>
         ))}
       </Stagger>

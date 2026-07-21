@@ -31,7 +31,7 @@ export function SectionHeading({
       <Reveal delay={0.05}>
         <h2
           className={cn(
-            "display text-balance text-[clamp(2rem,5vw,3.5rem)] text-text",
+            "display text-balance text-[clamp(2.15rem,5.4vw,4rem)] leading-[1.0] text-text",
             align === "center" && "mx-auto max-w-3xl"
           )}
         >
