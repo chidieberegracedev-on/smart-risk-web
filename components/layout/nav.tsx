@@ -73,12 +73,19 @@ export function Nav() {
           </div>
 
           <div className="hidden items-center gap-2 md:flex">
-            {showPortal && (
+            {showPortal ? (
               <Link
                 href="/portal"
-                className="rounded-lg px-3.5 py-2 text-sm text-muted transition-colors hover:text-text"
+                className="rounded-lg px-3.5 py-2 text-sm font-medium text-text transition-colors hover:text-accent"
               >
                 Portal
+              </Link>
+            ) : (
+              <Link
+                href="/login"
+                className="rounded-lg px-3.5 py-2 text-sm text-muted transition-colors hover:text-text"
+              >
+                Sign in
               </Link>
             )}
             <Button href="/download" size="md">
@@ -145,6 +152,13 @@ export function Nav() {
                   </Link>
                 </motion.div>
               ))}
+              <Link
+                href={showPortal ? "/portal" : "/login"}
+                onClick={() => setOpen(false)}
+                className="block border-b border-line py-4 text-lg text-text"
+              >
+                {showPortal ? "Portal" : "Sign in"}
+              </Link>
               <div className="mt-6">
                 <Button href="/download" size="lg" className="w-full">
                   Get the app <ArrowIcon />
