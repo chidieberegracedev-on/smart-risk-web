@@ -3,6 +3,7 @@
 import { motion, useScroll, useTransform } from "framer-motion";
 import { useRef } from "react";
 import { GradientMesh } from "@/components/visuals/gradient-mesh";
+import { Hero3D } from "@/components/visuals/hero-3d";
 import { RiskConsole } from "@/components/visuals/risk-console";
 import { Button, ArrowIcon } from "@/components/ui/button";
 import { Badge, Dot } from "@/components/ui/badge";
@@ -38,6 +39,15 @@ export function Hero() {
       <motion.div style={{ y: meshY }} className="absolute inset-0">
         <GradientMesh />
       </motion.div>
+
+      {/* Full-bleed 3D Aegis scene */}
+      <motion.div style={{ y: meshY }} className="absolute inset-0">
+        <Hero3D />
+      </motion.div>
+
+      {/* Legibility scrim — keeps the copy side readable over the scene */}
+      <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(90deg,#0A0A0A_0%,rgba(10,10,10,0.82)_34%,rgba(10,10,10,0.15)_62%,rgba(10,10,10,0.45)_100%)]" />
+      <div className="pointer-events-none absolute inset-x-0 bottom-0 h-40 bg-gradient-to-t from-bg to-transparent" />
 
       <div className="container-page relative grid items-center gap-14 lg:grid-cols-[1.08fr,0.92fr]">
         {/* Copy */}
