@@ -9,9 +9,12 @@ import { Logo } from "@/components/ui/logo";
 import { Button, ArrowIcon } from "@/components/ui/button";
 import { cn } from "@/lib/cn";
 import { EASE_OUT } from "@/lib/motion";
+import { useAuth } from "@/components/portal/auth-context";
 
 export function Nav() {
   const pathname = usePathname();
+  const { user, preview } = useAuth();
+  const showPortal = Boolean(user) || preview;
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
 
@@ -69,7 +72,15 @@ export function Nav() {
             })}
           </div>
 
-          <div className="hidden md:block">
+          <div className="hidden items-center gap-2 md:flex">
+            {showPortal && (
+              <Link
+                href="/portal"
+                className="rounded-lg px-3.5 py-2 text-sm text-muted transition-colors hover:text-text"
+              >
+                Portal
+              </Link>
+            )}
             <Button href="/download" size="md">
               Get the app <ArrowIcon />
             </Button>

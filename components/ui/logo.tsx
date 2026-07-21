@@ -5,9 +5,12 @@ import { cn } from "@/lib/cn";
 export function Logo({
   className,
   showWord = true,
+  wordClassName = "text-text",
 }: {
   className?: string;
   showWord?: boolean;
+  /** Override the wordmark color (e.g. a portal token for themed contexts). */
+  wordClassName?: string;
 }) {
   return (
     <span className={cn("inline-flex items-center gap-2.5", className)}>
@@ -35,7 +38,12 @@ export function Logo({
         />
       </svg>
       {showWord && (
-        <span className="font-display text-[15px] font-semibold tracking-tight text-text">
+        <span
+          className={cn(
+            "font-display text-[15px] font-semibold tracking-tight",
+            wordClassName
+          )}
+        >
           Smart Risk
         </span>
       )}

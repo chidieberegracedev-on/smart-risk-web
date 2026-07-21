@@ -26,6 +26,25 @@ const config: Config = {
         verified: "#3FB97F",
         caution: "#E0A63C",
         danger: "#E5484D",
+        // Portal tokens — CSS variables so Dark/Light/System all share one
+        // component set. Marketing pages keep the fixed tokens above.
+        portal: {
+          bg: "var(--p-bg)",
+          surface: "var(--p-surface)",
+          elevated: "var(--p-elevated)",
+          text: "var(--p-text)",
+          muted: "var(--p-muted)",
+          faint: "var(--p-faint)",
+          line: "var(--p-line)",
+          accent: "#3B6FD4",
+          positive: "#7FB069",
+          pending: "#D9A441",
+          danger: "#E0685A",
+        },
+      },
+      boxShadow: {
+        // Depth for light mode (dark mode uses tone-lift instead)
+        "portal-soft": "var(--p-shadow)",
       },
       fontFamily: {
         display: ["var(--font-display)", "system-ui", "sans-serif"],

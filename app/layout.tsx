@@ -1,9 +1,9 @@
 import type { Metadata, Viewport } from "next";
 import { display, sans, mono } from "./fonts";
 import { site } from "@/lib/site";
-import { Nav } from "@/components/layout/nav";
-import { Footer } from "@/components/layout/footer";
-import { ScrollProgress } from "@/components/motion/scroll-progress";
+import { SiteChrome } from "@/components/layout/site-chrome";
+import { ThemeProvider, THEME_INIT } from "@/lib/theme";
+import { AuthProvider } from "@/components/portal/auth-context";
 import "./globals.css";
 
 export const metadata: Metadata = {
@@ -55,18 +55,24 @@ export default function RootLayout({
     <html
       lang="en"
       className={`${display.variable} ${sans.variable} ${mono.variable}`}
+      suppressHydrationWarning
     >
+      <head>
+        {/* Apply the persisted theme before paint — no flash of wrong theme. */}
+        <script dangerouslySetInnerHTML={{ __html: THEME_INIT }} />
+      </head>
       <body>
-        <a
-          href="#main"
-          className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[100] focus:rounded-lg focus:bg-accent focus:px-4 focus:py-2 focus:text-sm focus:font-medium focus:text-white"
-        >
-          Skip to content
-        </a>
-        <ScrollProgress />
-        <Nav />
-        <main id="main">{children}</main>
-        <Footer />
+        <ThemeProvider>
+          <AuthProvider>
+            <a
+              href="#main"
+              className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[100] focus:rounded-lg focus:bg-accent focus:px-4 focus:py-2 focus:text-sm focus:font-medium focus:text-white"
+            >
+              Skip to content
+            </a>
+            <SiteChrome>{children}</SiteChrome>
+          </AuthProvider>
+        </ThemeProvider>
       </body>
     </html>
   );
