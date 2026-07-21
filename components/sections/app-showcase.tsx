@@ -4,7 +4,9 @@ import { motion } from "framer-motion";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { useInView } from "framer-motion";
 import { PhoneFrame } from "@/components/visuals/phone-frame";
+import { PhoneTrio } from "@/components/visuals/phone-trio";
 import { SectionHeading } from "@/components/ui/section-heading";
+import { Reveal } from "@/components/motion/reveal";
 import { Badge } from "@/components/ui/badge";
 import { Button, ArrowIcon } from "@/components/ui/button";
 import { EASE_OUT } from "@/lib/motion";
@@ -41,21 +43,36 @@ export function AppShowcase() {
   const onActive = useCallback((i: number) => setActive(i), []);
 
   return (
-    <section id="the-app" className="relative py-24 lg:py-32">
+    <section id="the-app" className="relative scroll-mt-20 py-24 lg:py-32">
+      {/* Heading + fanned trio — the hero of this section */}
+      <div className="container-page">
+        <SectionHeading
+          eyebrow="See the app"
+          title={
+            <>
+              The real product,{" "}
+              <span className="text-gradient">in your hand</span>
+            </>
+          }
+          intro="No mockups of features that don't exist — this is the actual app. The risk calculator up front, your home feed and live markets right behind it."
+          align="center"
+          className="mx-auto"
+        />
+      </div>
+      <div className="container-page mt-12 lg:mt-16">
+        <PhoneTrio />
+      </div>
+
+      {/* Closer look: scroll-synced walkthrough of each screen */}
+      <div className="container-page mt-24 lg:mt-8">
+        <Reveal className="mb-4 lg:mb-0">
+          <span className="eyebrow">A closer look</span>
+        </Reveal>
+      </div>
       <div className="container-page lg:grid lg:grid-cols-2 lg:gap-20">
-        {/* Left: heading + scrolling narrative */}
+        {/* Left: scrolling narrative */}
         <div>
-          <SectionHeading
-            eyebrow="See the app"
-            title={
-              <>
-                The real product,{" "}
-                <span className="text-gradient">in your hand</span>
-              </>
-            }
-            intro="No mockups of features that don't exist — this is the actual app. Scroll through the three screens that matter most."
-          />
-          <div className="mt-6 lg:mt-2">
+          <div className="mt-2">
             {screens.map((s, i) => (
               <Step key={s.src} screen={s} index={i} onActive={onActive} />
             ))}

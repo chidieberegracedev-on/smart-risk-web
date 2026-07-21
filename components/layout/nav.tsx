@@ -127,6 +127,7 @@ export function Nav() {
                 >
                   <Link
                     href={item.href}
+                    onClick={() => setOpen(false)}
                     className="block border-b border-line py-4 text-lg text-text"
                   >
                     {item.label}
