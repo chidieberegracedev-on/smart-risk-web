@@ -22,7 +22,13 @@
     font-family: theme("fontFamily.sans");
     -webkit-font-smoothing: antialiased;
     text-rendering: optimizeLegibility;
-    overflow-x: hidden;
+  }
+
+  /* Clip horizontal overflow at the root so full-bleed sections can't cause a
+     sideways scroll — on <html>, not <body>, so the window stays the vertical
+     scroll container and position: sticky keeps working. */
+  html {
+    overflow-x: clip;
   }
 
   ::selection {
