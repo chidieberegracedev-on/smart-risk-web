@@ -22,8 +22,6 @@ export interface Campaign {
   price_currency?: string | null;
   quoted_price?: number | null;
   quoted_currency?: string | null;
-  advertiser_email?: string | null;
-  contact_email?: string | null;
   audience?: string | null;
   duration_days?: number | null;
   max_impressions?: number | null;

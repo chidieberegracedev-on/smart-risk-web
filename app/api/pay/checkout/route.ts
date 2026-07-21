@@ -9,6 +9,41 @@ export const dynamic = "force-dynamic";
 
 const PAYABLE_STATUSES = ["approved_payment_required", "payment_processing"];
 
+const BILLING_FALLBACK = "billing@smartriskassistant.com";
+
+// The advertiser's email lives on their APPLICATION, not the campaign row.
+// Resolve it server-side (service key) with a strict fallback order:
+//   1. advertiser_applications.contact_email  (required at apply time)
+//   2. profiles.email for that firebase_uid   (may be null)
+//   3. billing@ placeholder                    (last resort)
+async function resolveAdvertiserEmail(advertiserUid: string): Promise<string> {
+  const uid = encodeURIComponent(advertiserUid);
+
+  try {
+    const apps = await sbSelect<{ contact_email?: string | null }>(
+      "advertiser_applications",
+      `advertiser_uid=eq.${uid}&contact_email=not.is.null&select=contact_email&order=created_at.desc&limit=1`
+    );
+    const appEmail = apps[0]?.contact_email;
+    if (appEmail) return appEmail;
+  } catch (err) {
+    console.warn("email lookup: advertiser_applications failed", err);
+  }
+
+  try {
+    const profiles = await sbSelect<{ email?: string | null }>(
+      "profiles",
+      `firebase_uid=eq.${uid}&email=not.is.null&select=email&limit=1`
+    );
+    const profileEmail = profiles[0]?.email;
+    if (profileEmail) return profileEmail;
+  } catch (err) {
+    console.warn("email lookup: profiles failed", err);
+  }
+
+  return BILLING_FALLBACK;
+}
+
 // POST { campaignId } → { url }
 // The amount ALWAYS comes from the campaign row server-side — the client never
 // sends or computes money.
@@ -65,10 +100,7 @@ export async function POST(req: NextRequest) {
       req.headers.get("origin") ??
       `https://${req.headers.get("x-forwarded-host") ?? req.headers.get("host")}`;
     const returnUrl = `${origin}/pay/result?session=${session.id}`;
-    const email =
-      campaign.advertiser_email ??
-      campaign.contact_email ??
-      "billing@smartriskassistant.com";
+    const email = await resolveAdvertiserEmail(campaign.advertiser_uid);
 
     const url = await adapter.createCheckout({
       session,
