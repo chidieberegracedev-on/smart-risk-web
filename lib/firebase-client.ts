@@ -90,7 +90,22 @@ export function authErrorMessage(err: unknown): string {
       return "The Google sign-in window was closed before finishing.";
     case "auth/network-request-failed":
       return "Network error — check your connection and try again.";
+    // Setup-side problems — say so explicitly, they aren't the user's fault.
+    case "auth/operation-not-allowed":
+      return "Email/password sign-in isn't enabled for this project yet (Firebase Console → Authentication → Sign-in method).";
+    case "auth/configuration-not-found":
+      return "Firebase Authentication isn't set up for this project yet (open Authentication in the Firebase Console and enable it).";
+    case "auth/unauthorized-domain":
+      return "This site's domain isn't authorized in Firebase (Console → Authentication → Settings → Authorized domains).";
+    case "auth/invalid-api-key":
+    case "auth/api-key-not-valid.-please-pass-a-valid-api-key.":
+      return "The Firebase API key looks invalid — double-check NEXT_PUBLIC_FIREBASE_API_KEY.";
+    case "auth/internal-error":
+      return "Firebase rejected the request (internal error) — often an API-key restriction or a malformed request.";
     default:
-      return "Something went wrong. Please try again.";
+      // Surface the raw code so real problems are diagnosable, not hidden.
+      return code
+        ? `Sign-in failed (${code}). If this persists, the Firebase project settings may need attention.`
+        : "Something went wrong. Please try again.";
   }
 }
